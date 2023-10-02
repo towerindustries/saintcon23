@@ -1,5 +1,5 @@
 ###########################################################
-## /saintcon23/moderate_terraform/data_and_locals/ami.tf ##
+## /saintcon23/moderate_terraform/data_and_locals/data_ami.tf ##
 ###########################################################
 data "aws_ami" "latest_amazon_linux_2" {
   most_recent = true
