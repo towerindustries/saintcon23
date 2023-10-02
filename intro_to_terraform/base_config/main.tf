@@ -10,6 +10,7 @@ terraform {
 
 provider "aws" {
   # Configuration options
+  region = "us-east-1"
 }
 ####################
 ## Create the VPC ##
@@ -154,12 +155,6 @@ sudo cat > /usr/share/nginx/html/index.html << EOF1
 </html>
 EOF
 }
-output "public_ip" {
-  value = aws_instance.example.public_ip  
-}
-output "instance_ami" {
-  value = aws_instance.example.ami
-}
-output "instance_type" {
-  value = aws_instance.example.instance_type
+output "ec2_global_ips" {
+  value = aws_instance.example.public_ip
 }
