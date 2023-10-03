@@ -1,7 +1,7 @@
 ###########################################################
 ## /saintcon23/moderate_terraform/data_and_locals/data_ami.tf ##
 ###########################################################
-data "aws_ami" "latest_amazon_linux_2" {
+data "aws_ami" "latest_amazon_linux_2023" {
   most_recent = true
   filter {
     name = "name"
@@ -60,6 +60,6 @@ data "aws_ami" "latest_amazon_linux_2" {
     values = ["false"]
   }
 }
-output "latest_amazon_linux_2_ami_id" {
-  value = data.aws_ami.latest_amazon_linux_2.id
+output "latest_amazon_linux_2023_ami_id" {
+  value = data.aws_ami.latest_amazon_linux_2023.id
 }

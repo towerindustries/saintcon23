@@ -14,10 +14,18 @@ locals {
     Environment = local.environment
     Terraform   = local.terraform_code
   }
+  environment_tags = merge(local.common_tags, {
+    Department = "DevSecOps"
+  })
+  vpc_tags = {
+    Department = "Network-Team"
+  }
 }
 
 
 resource "aws_instance" "example" {
-  ami  = data.aws_ami.latest_amazon_linux_2.id 
   tags = local.common_tags
+}
+resource "aws_vpc" "example" {
+  tags = local.environment_tags
 }

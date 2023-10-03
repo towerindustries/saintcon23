@@ -1,9 +1,105 @@
+# Saintcon 23 - Cloud Automation
 
-# Saintcon 23
-## Cloud Automation -- Data and Locals
+## Data Instructions
 
+Copy this filter and output into your ```/working_directory/main.tf```. This will find the latest Amazon Linux 2023 AMI.  You can use this as a starting point for your own filters.
 
-## CLI Search for AMI
+```
+data "aws_ami" "latest_amazon_linux_2023" {
+  most_recent = true
+  filter {
+    name = "name"
+    values = ["al2023-ami-minimal-2023*"]
+  }
+  filter {
+    name = "owner-id"
+    values = ["137112412989"]
+  }
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }  
+  filter {
+    name = "owner-alias"
+    values = ["amazon"]  
+  }
+  filter {
+    name   = "state"
+    values = ["available"]
+  }
+}
+output "latest_amazon_linux_2023_ami_id" {
+  value = data.aws_ami.latest_amazon_linux_2023.id
+}
+```
+# Appendix A: Terraform Filtering Options
+```
+data "aws_ami" "latest_amazon_linux_2023" {
+  most_recent = true
+  filter {
+    name = "name"
+    values = ["al2023-ami-minimal-2023*"]
+  }
+  filter {
+    name = "owner-id"
+    values = ["137112412989"]
+  }
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }  
+  filter {
+    name = "owner-alias"
+    values = ["amazon"]  
+  }
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+  filter {
+    name   = "hypervisor"
+    values = ["xen"]
+  }
+  filter {
+    name   = "image-type"
+    values = ["machine"]
+  }
+  filter {
+    name   = "ena-support"
+    values = ["true"]
+  }
+  filter {
+    name   = "state"
+    values = ["available"]
+  }
+  filter {
+    name   = "block-device-mapping.volume-type"
+    values = ["gp3"]
+  }
+  filter {
+    name   = "block-device-mapping.delete-on-termination"
+    values = ["true"]
+  }
+  filter {
+    name   = "block-device-mapping.device-name"
+    values = ["/dev/xvda"]
+  }
+  filter {
+    name   = "block-device-mapping.encrypted"
+    values = ["false"]
+  }
+}
+```
+# Appendix B: How to find an AMI with the AWS CLI
+### CLI Search for AMI
 
 Search for a specific AMI with image-ids.  
 * The region command speeds it up.
@@ -15,6 +111,26 @@ aws ec2 describe-images \
     --image-ids ami-054aaceda83e053ee
     --owners amazon
 ```
+Owner is short for ```OwnerId``` and is the Amazon account that owns the AMI.  In this case it is Amazon.
+```
+aws ec2 describe-images \
+    --region us-east-1 \
+    --owners amazon \
+    --owner 247102896272
+```
+```
+aws ec2 describe-images \
+    --region us-east-1 \
+    --owners amazon \
+    --owner 247102896272 \
+    --filters "Name=name,Values=al2023-ami-2023.*"
+```
+```
+aws ec2 describe-images \
+    --region us-east-1 \
+    --owners amazon \
+    --filters "Name=name,Values=al2023-ami-2023.*x86_64"
+```
 Search for an AMI owned by amazon with filters.
 
 ```
@@ -23,12 +139,13 @@ aws ec2 describe-images \
     --owners amazon \
     --filters "Name=root-device-type,Values=ebs" "Name=virtualization-type,Values=hvm"
 ```
-
+Searching for the Windows Platform.  Linux does not have a corrilating value.
 ```
 aws ec2 describe-images \
     --region us-east-1 \
     --filters "Name=root-device-type,Values=ebs" "Name=platform,Values=windows"
 ```
+
 Notice there is a Platform category here but not on the Amazon Image.  It only works for windows.
 
 ```
@@ -42,9 +159,14 @@ aws ec2 describe-images \
     --region us-east-1 \
     --image-ids ami-0779b302ed007c203
 ```
+```
+aws ec2 describe-images \
+    --region us-east-1 \
+    --owners amazon \
+    --owner 247102896272
+```
+# Appendix C: Valid Image Filters
 
-
-## Valid Image Filters
 * architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac ).
 * block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.
 * block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh ).
