@@ -1,4 +1,6 @@
-# Locals
+# Saintcon 23 - Cloud Automation
+
+## Locals Instruction
 
 ### What is a local variable?
 A local variable is a variable that is defined in the Terraform configuration and is used to simplify the configuration.  It is not passed to the Terraform Cloud or Terraform Enterprise.

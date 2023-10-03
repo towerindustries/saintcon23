@@ -10,5 +10,5 @@ terraform {
 
 provider "aws" {
   # Configuration options
-  availability_zone = "us-east-1a"
+  region = "us-east-1"
 }

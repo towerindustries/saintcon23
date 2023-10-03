@@ -2,7 +2,7 @@
 ## Print the Public IP to the Console Screen ##
 ###############################################
 output "public_ip" {
-  value = aws_instance.example.public_ip  # This will print on the screen what Public IP we need to ssh to.
+  value = aws_instance.example.public_ip # This will print on the screen what Public IP we need to ssh to.
 }
 output "vpc_id" {
   value = aws_vpc.example.id

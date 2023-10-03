@@ -1,4 +1,6 @@
-
+#######################
+## Search for an AMI ##
+#######################
 data "aws_ami" "latest_amazon_linux_2023" {
   most_recent = true
   filter {
@@ -25,14 +27,13 @@ data "aws_ami" "latest_amazon_linux_2023" {
     name   = "state"
     values = ["available"]
   }
-
+}
 ############################################
 ## Dumps the AMI info out into a variable ##
 ############################################
 output "latest_amazon_linux_2023_ami_id" {
   value = data.aws_ami.latest_amazon_linux_2023.id
 }
-
 ##########################################
 ## Add the Data AMI to the Ec2 Instance ##
 ##########################################

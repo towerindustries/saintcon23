@@ -22,7 +22,9 @@ locals {
   }
 }
 
-
+resource "aws_vpc" "example" {
+  tags = local.vpc_tags
+}
 resource "aws_instance" "example" {
   tags = local.common_tags
 }
