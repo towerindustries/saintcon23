@@ -52,12 +52,6 @@ data "aws_ami" "latest_amazon_linux_2023" {
     values = ["available"]
   }
 }
-############################################
-## Dumps the AMI info out into a variable ##
-############################################
-output "latest_amazon_linux_2023_ami_id" {
-  value = data.aws_ami.latest_amazon_linux_2023.id
-}
 ####################
 ## Create the VPC ##
 ####################
@@ -146,7 +140,7 @@ resource "aws_instance" "example" {
   instance_type = var.instance_type             
   key_name      = var.key_name   
   subnet_id     = aws_subnet.example.id   
-  tags = local.environment_tags
+  tags = local.common_tags
 
   root_block_device {
     volume_size = var.volume_size

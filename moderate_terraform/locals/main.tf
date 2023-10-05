@@ -9,7 +9,6 @@ locals {
   common_tags = {
     Name        = local.name
     Service     = local.service_name
-    Owner       = local.owner
     Environment = local.environment
     Terraform   = local.terraform_code
   }
@@ -17,11 +16,12 @@ locals {
     department = "devsecops"
     owner             = "dev.at.saintcon.org"
   })
-  network_tags = {
+  network_tags = merge(local.common_tags, {
     department = "network-team"
     owner             = "noc.at.saintcon.org"
-  }
+  })
 }
+
 #################################
 ## Add to respective resources ##
 #################################

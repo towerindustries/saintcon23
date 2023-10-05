@@ -43,7 +43,8 @@ resource "aws_instance" "example" {
 }
 ```
 
-## Copy the output from the data command into the ```outputs.tf``` file.
+## Add the output command into ```main.tf```.
+We will move the output command to an ```outputs.tf``` file later on.
 ```
 output "latest_amazon_linux_2023_ami_id" {
   value = data.aws_ami.latest_amazon_linux_2023.id

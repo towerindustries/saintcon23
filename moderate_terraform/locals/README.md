@@ -5,20 +5,31 @@
 ### What is a local variable?
 Local variables are used to simplify the configuration.  It provides an easy way to apply the same value to multiple resources.  In our example we will repeat the same tags to multiple resources.  This will allow us to change the tags in one place and have it apply to all resources.
 
-## Locals Instruction
+## Locals Instructions
 
-Modify ```/moderate_terraform/locals/main.tf``` with your desired tags
+Modify ```/moderate_terraform/locals/main.tf``` to include the following code.  
+Below we define what the generic most common tags will be.
 
 ```
 locals {
   name              = "dev-amazon2023"
   service_name      = "example"
-  owner             = "utahsaint"
   environment       = "dev"
   terraform_code    = "advanced_terraform_v2"
 }
 ```
-In this example we have created a locals variable group called ```common_tags```.
+In this example below we have created a locals variable group called ```common_tags```.  Here we have set the ```Name``` tag to be populated with the local.name variable that we set above.  In this case it will be populated with dev-amazon2023.  
+
+We have also set the ```Service``` tag to be populated with the ```local.service_name``` variable.  In this case it will be populated with ```example```.  We have also set the ```Environment``` tag to be populated with the ```local.environment``` variable.  In this case it will be populated with ```dev```.  We have also set the ```Terraform``` tag to be populated with the ```local.terraform_code``` variable.  In this case it will be populated with ```advanced_terraform_v2```.
+
+```
+  common_tags = {
+    Name        = local.name
+    Service     = local.service_name
+    Environment = local.environment
+    Terraform   = local.terraform_code
+  }
+```
 
 ```
 locals {
@@ -26,20 +37,20 @@ locals {
   common_tags = {
     Name        = local.name
     Service     = local.service_name
-    Owner       = local.owner
     Environment = local.environment
     Terraform   = local.terraform_code
   }
-}
 ```
-Here we have set the "Name" tag to be populated with the local.name variable.  In this case it will be populated with dev-amazon2023.
+
 
 ```
   environment_tags = merge(local.common_tags, {
-    Department = "DevSecOps"
+    department = "devsecops"
+    owner             = "dev.at.saintcon.org"
   })
-}
 ```
+
+
 By adding the merge command it will now add "department = DevSecOps" to the common tags.
 The results:
 ```
@@ -51,39 +62,41 @@ Terraform	advanced_terraform_v2
 Owner	utahsaint
 ```
 
-To add tags for another use such as VPC tags you would add the following:
+
+Create a second more specific ```local``` for the network tags.
 ```
-  network_tags = {
-    Department = "Network-Team"
-  }
+  network_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner             = "noc.at.saintcon.org"
+  })
 ```
-This will only add the "Department = Network-Team" tag to the VPC.
+
 
 # Complete Code
 ```
 
 locals {
-  name           = "dev-amazon2023"
-  service_name   = "example"
-  owner          = "utahsaint"
-  environment    = "dev"
-  terraform_code = "advanced_terraform_v2"
+  name              = "dev-amazon2023"
+  service_name      = "example"
+  environment       = "dev"
+  terraform_code    = "advanced_terraform_v2"
 }
 locals {
   # Common tags to be assigned to all resources
   common_tags = {
     Name        = local.name
     Service     = local.service_name
-    Owner       = local.owner
     Environment = local.environment
     Terraform   = local.terraform_code
   }
   environment_tags = merge(local.common_tags, {
-    Department = "DevSecOps"
+    department = "devsecops"
+    owner             = "dev.at.saintcon.org"
   })
-  vpc_tags = {
-    Department = "Network-Team"
-  }
+  network_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner             = "noc.at.saintcon.org"
+  })
 }
 ####################
 ## Create the VPC ##
@@ -176,24 +189,20 @@ resource "aws_security_group" "example" {
 ## Create the actual Ec2 Instance ##
 ####################################
 resource "aws_instance" "example" {
-  ami           = "ami-03a6eaae9938c858c" # Feed it the AMI you found
-  instance_type = "t2.micro"              # Choose the size/type of compute you want
-  key_name      = "dev-example-key"       # Here is the public key you want for ssh.
-  subnet_id     = aws_subnet.example.id   # Put it on the Subnet you created.
-  tags          = local.environment_tags
-  #   tags = {
-  #     Name = "dev-amazon2023"
-  #   }  
-
+  ami           = "ami-03a6eaae9938c858c"
+  instance_type = "t2.micro"
+  key_name      = "dev-example-key"
+  subnet_id     = aws_subnet.example.id
+  tags          = local.common_tags
 
   root_block_device {
-    volume_size = 30    # If you wanted to increase the hard drive space here it is.
-    volume_type = "gp3" # The type of storage you want to use.
+    volume_size = 30
+    volume_type = "gp3"
     encrypted   = true
   }
   associate_public_ip_address = true
   vpc_security_group_ids = [
-    aws_security_group.example.id # Add the security group you created.
+    aws_security_group.example.id
   ]
   user_data = <<EOF
 #!/bin/bash
