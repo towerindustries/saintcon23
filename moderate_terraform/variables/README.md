@@ -246,13 +246,13 @@ resource "aws_instance" "example" {
   tags          = local.environment_tags
   
   root_block_device {
-    volume_size = 30    # If you wanted to increase the hard drive space here it is.
-    volume_type = "gp3" # The type of storage you want to use.
+    volume_size = 30
+    volume_type = "gp3"
     encrypted   = true
   }
   associate_public_ip_address = true
   vpc_security_group_ids = [
-    aws_security_group.example.id # Add the security group you created.
+    aws_security_group.example.id
   ]
   user_data = file("nginxserver_amazon_deploy.sh")
 }

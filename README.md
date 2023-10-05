@@ -16,8 +16,14 @@ You will need your own AWS account to complete this workshop.  If this is a majo
 If you do not already have an AWS account, you can create one [here](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/).  You will need to provide a credit card to create an AWS account.  Services created today have little to no cost depending on how long you leave them running.  If this a new AWS account all services will be free.  If you are over the free-tier limit, you will be charged around $1.00 for the services created today.
 
 ## AWS CLI
-The AWS CLI is a command line tool that allows you to interact with AWS services.  You can download the AWS CLI [here](https://aws.amazon.com/cli/).  Once you have the AWS CLI installed, you will need to configure it with your AWS credentials.
+The AWS CLI is a command line tool that allows you to interact with AWS services.  Once you have the AWS CLI installed, you will need to configure it with your AWS credentials.
 
+Download the CLI
+```
+https://aws.amazon.com/cli/
+```
+
+Using the GUI generate an Access Key
 ```
 ## Generate Access Key
 1. Login to AWS Console: https://console.aws.amazon.com/

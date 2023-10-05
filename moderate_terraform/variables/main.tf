@@ -20,7 +20,7 @@ locals {
 ## Create the VPC ##
 ####################
 resource "aws_vpc" "example" {
-  cidr_block = var.vpc_cidr_block # This is the CIDR block of the VPC
+  cidr_block = var.vpc_cidr_block
   tags = {
     Name = "dev-vpc"
   }
@@ -39,7 +39,7 @@ resource "aws_internet_gateway" "example" {
 #######################
 resource "aws_subnet" "example" {
   vpc_id            = aws_vpc.example.id
-  cidr_block        = var.subnet_cidr_block # This is the CIDR block of the subnet
+  cidr_block        = var.subnet_cidr_block
   availability_zone = var.availability_zone
   tags = {
     Name = "dev-subnet"
@@ -81,28 +81,26 @@ resource "aws_security_group" "example" {
     from_port = 22
     to_port   = 22
     protocol  = "tcp"
-    # cidr_blocks = ["66.0.0.97/32"] # Change this to your home ip
     cidr_blocks = var.sg_cidr_blocks_allow_ssh
   }
   ingress {
     from_port = 80
     to_port   = 80
     protocol  = "tcp"
-    # cidr_blocks = ["66.0.0.97/32"] # Change this to your home ip
     cidr_blocks = var.sg_cidr_blocks_allow_http
   }
   ingress {
     from_port = 443
     to_port   = 443
     protocol  = "tcp"
-    # cidr_blocks = ["66.0.0.97/32"] # Change this to your home ip
+    # cidr_blocks = ["66.0.0.97/32"]
     cidr_blocks = var.sg_cidr_blocks_allow_https
   }
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"] ## Allow all outbound traffic
+    cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
     Name = "dev-security-group"
@@ -115,20 +113,19 @@ resource "aws_security_group" "example" {
 ####################################
 resource "aws_instance" "example" {
   ami                  = data.aws_ami.latest_amazon_linux_2.id
-  instance_type        = var.instance_type        # This is the type of instance you want to create.
-  iam_instance_profile = var.iam_instance_profile # This is the IAM role you want to use.
-  key_name             = var.key_name             # This is the key you want to use to ssh into the instance.
+  instance_type        = var.instance_type
+  key_name             = var.key_name
   subnet_id            = aws_subnet.example.id
   tags                 = local.common_tags
 
   root_block_device {
-    volume_size = var.volume_size # If you wanted to increase the hard drive space here it is.
-    volume_type = var.volume_type # The type of storage you want to use.
+    volume_size = var.volume_size
+    volume_type = var.volume_type
     encrypted   = true
   }
   associate_public_ip_address = true
   vpc_security_group_ids = [
     aws_security_group.example.id
   ]
-  user_data = file("./user_data.sh") # This is the user data script that will run when the instance is created.
+  user_data = file("./user_data.sh")
 }
