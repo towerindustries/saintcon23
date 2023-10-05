@@ -1,7 +1,7 @@
 # SaintCon 2023 - Intro to Cloud Automation with Terraform
-## David Thurm - Saint Discord @packetmonster
+## David Thurm: @packetmonster
 ## Introduction
-This repository contains the code and instructions for the SaintCon 2023 - Intro to Cloud Automation with Terraform workshop.  This workshop will introduce you to the basics of Terraform and how to use it to automate the creation of cloud resources.  We will be using AWS as our cloud provider for this workshop, but the concepts can be applied to other cloud providers as well.
+This repository contains the code and instructions for the Intro to Cloud Automation with Terraform workshop.  This workshop will introduce you to the basics of Terraform and how to use it to automate the creation of cloud resources.  We will be using AWS as our cloud provider for this workshop, but the concepts can be applied to other cloud providers as well.
 
 ## Prerequisites -- To be done **BEFORE** the day of class
 * AWS Account
