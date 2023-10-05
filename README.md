@@ -30,7 +30,10 @@ Using the GUI generate an Access Key
 2. Click on your name in the top right corner
 3. Click on "Security Credentials"
 5. Click on "Create Access Key"
-6. Click on "Show Access Key"
+    ** Select Command Line Interface(CLI)
+    ** Click I understand... then next
+    ** Name the key
+6. Click on Secret Access Key "show"
 7. Copy Access Key and Secret Key to Notepad
 8. Click on "Download .csv file" (Optional)
 9. Click on "Done"
@@ -58,6 +61,7 @@ You will need a text editor to edit the Terraform files.  You can use any text e
 
 Install VScode on your local workstation with the following extensions:
 * HashiCorp Terraform
+* Markdown (Markdown All in One-Yu Zhang 7 Million Downloads)(Control-shift-v)
   
 ## Clone the Repository
 Git is a version control system that allows you to track changes to files.  Download git from [here](https://git-scm.com/downloads) and install it on your local workstation.  Once you have git installed, you will need to clone the repository to your local workstation.  You can do this by running the following command:
