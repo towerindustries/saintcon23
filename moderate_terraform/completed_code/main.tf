@@ -20,7 +20,7 @@ locals {
   network_tags = merge(local.common_tags, {
     department = "network-team"
     owner             = "noc.at.saintcon.org"
-  }
+  })
 }
 #######################
 ## Search for an AMI ##
