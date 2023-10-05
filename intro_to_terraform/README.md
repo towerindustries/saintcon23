@@ -2,8 +2,9 @@
 # Instructions:  Base Configuration
 
 ## GUI Walk-Through
-https://console.aws.amazon.com  
-EC2/Instances/Launch Instance
+AWS Console URL:  https://console.aws.amazon.com  
+
+Click: EC2 -> Instances -> Launch Instance
 
 1. Name: terraform_gui
 2. Choose Operating System: Amazon Linux

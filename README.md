@@ -1,7 +1,7 @@
 # SaintCon 2023 - Cloud Automation with Terraform
 ## David Thurm: @packetmonster
 ## Introduction
-This repository contains the code and instructions for the Intro to Cloud Automation with Terraform workshop.  This workshop will cover the basics thru moderately advanced of Terraform and how to use it to automate the creation of cloud resources.  We will be using AWS as our cloud provider for this workshop, but the concepts can be applied to other cloud providers as well.
+This repository contains the code and instructions for the Intro to Cloud Automation with Terraform workshop.  This workshop will cover the basics thru moderately advanced Terraform.  We will be using AWS as our cloud provider, but the concepts can be applied to other cloud providers as well.
 
 ## Prerequisites -- To be done **BEFORE** the day of class
 * AWS Account
@@ -15,15 +15,12 @@ You will need your own AWS account to complete this workshop.  If this is a majo
 
 If you do not already have an AWS account, you can create one [here](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/).  You will need to provide a credit card to create an AWS account.  Services created today have little to no cost depending on how long you leave them running.  If this a new AWS account all services will be free.  If you are over the free-tier limit, you will be charged around $1.00 for the services created today.
 
-If you are concerned about being charged for resources, you can set up a billing alarm in the AWS console to notify you if your account exceeds a certain amount.
-
 ## AWS CLI
-The AWS CLI is a command line tool that allows you to interact with AWS services from the command line.  You can download the AWS CLI [here](https://aws.amazon.com/cli/).  Once you have the AWS CLI installed, you will need to configure it with your AWS credentials.
+The AWS CLI is a command line tool that allows you to interact with AWS services.  You can download the AWS CLI [here](https://aws.amazon.com/cli/).  Once you have the AWS CLI installed, you will need to configure it with your AWS credentials.
 
 ```
-# AWS CLI Login
 ## Generate Access Key
-1. Login to AWS Console
+1. Login to AWS Console: https://console.aws.amazon.com/
 2. Click on your name in the top right corner
 3. Click on "Security Credentials"
 5. Click on "Create Access Key"
@@ -32,10 +29,12 @@ The AWS CLI is a command line tool that allows you to interact with AWS services
 8. Click on "Download .csv file" (Optional)
 9. Click on "Done"
 ```
-Login from the CLI
+## AWS CLI Authentication
+
 ```
-# AWS CLI Authentication
 aws configure
+```
+```
 AWS Access Key ID: <enter your access key>
 AWS Secret Access Key: <enter your secret key>
 Default region name: us-east-1
