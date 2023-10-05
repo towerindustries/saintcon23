@@ -1,7 +1,7 @@
 # Intro to Cloud Automation with Terraform
 # Instructions:  Base Configuration
 
-## GUI Walk-Through
+## 1: GUI Walk-Through
 AWS Console URL:  https://console.aws.amazon.com  
 
 Click: EC2 -> Instances -> Launch Instance
@@ -16,14 +16,14 @@ Click: EC2 -> Instances -> Launch Instance
 8. Launch Instance
 
 
-## Terraform Walk-Through
-### Git Clone Command
+## 2: Terraform Walk-Through
+### Git Clone Command - if not already done.
 
 ```
 git clone https://github.com/towerindustries/saintcon23.git
 ```
 
-## Base Configuration
+## 3: Base Configuration
 
 Rename the following "example" to your desired name:
 ```
@@ -78,10 +78,17 @@ Modify the security group with your current IP.
   }
 ```
 
-# Terraform Commands
+# 4: Terraform Commands
 ```
 terraform init
 terraform fmt
 terraform plan
 terraform apply
+```
+# Next Step 
+```/saintcon23/moderate_terraform/README.md```
+
+# Appendix A: The Completed Code -- Spoiler Alert
+```
+
 ```

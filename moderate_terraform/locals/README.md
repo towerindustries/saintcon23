@@ -59,7 +59,7 @@ Create a second more specific ```local``` for the network tags.
 ```
 
 
-# The Completed Code -- Spoiler Alert
+# Appendix A: The Completed Code -- Spoiler Alert
 ```
 
 locals {

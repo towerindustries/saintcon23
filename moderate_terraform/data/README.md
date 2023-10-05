@@ -51,7 +51,7 @@ output "latest_amazon_linux_2023_ami_id" {
 }
 ```
 
-# The Completed Code -- Spoiler Alert
+# Appendix a: The Completed Code -- Spoiler Alert
 ```
 terraform {
   required_providers {
@@ -60,7 +60,7 @@ terraform {
       version = "5.19.0"
     }
   }
-  required_version = "~> 1.5.7"
+  required_version = ">= 1.5.7"
 }
 
 provider "aws" {

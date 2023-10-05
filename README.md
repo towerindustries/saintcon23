@@ -53,10 +53,10 @@ Test the CLI
 ```
 aws sts get-caller-identity
 ```
-## Terraform
+## Terraform Intall
 Terraform is an open source tool that allows you to automate the creation of cloud resources.  You can download Terraform [here](https://www.terraform.io/downloads.html).  Once you have Terraform installed, you will need to add it to your PATH.  You can find instructions on how to do that [here](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix).
 
-## Text Editor
+## Text Editor Install
 You will need a text editor to edit the Terraform files.  You can use any text editor you like, but I recommend using [Visual Studio Code](https://code.visualstudio.com/).
 
 Install VScode on your local workstation with the following extensions:
@@ -71,3 +71,5 @@ git clone https://github.com/towerindustries/saintcon23.git
 Once you have Git installed, you will need to configure it with your name and email address.  You can find instructions on how to do that [here](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup).
 
 
+# Next Step Here
+```/saintcon23/basic_config/README.md```

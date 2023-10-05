@@ -5,16 +5,16 @@ terraform {
       version = "5.19.0"
     }
   }
-  required_version = "~> 1.5.7"
+  required_version = ">= 1.5.7"
 }
 
 provider "aws" {
   # Configuration options
   region = "us-east-1"
 }
-####################
-## Create the VPC ##
-####################
+############################################
+## Create the VPC (Virtual Private Cloud) ##
+############################################
 resource "aws_vpc" "example" {
   cidr_block = "10.0.0.0/16"
   tags = {
@@ -137,7 +137,7 @@ sudo firewall-cmd --zone=public --permanent --add-service=http
 sudo firewall-cmd --zone=public --permanent --add-service=https
 sudo systemctl reload firewalld
 
-### Intall Nginx ###
+### Install Nginx ###
 sudo dnf module enable nginx:mainline
 sudo dnf --assumeyes install nginx
 sudo systemctl enable --now nginx

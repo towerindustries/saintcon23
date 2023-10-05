@@ -25,7 +25,7 @@ This is where you will define your variables.
 variable "region" {
   description = "region"
   type = string
-  default = "us-east"
+  default = "us-east-1"
 }
 variable "availability_zone" {
   description = "The availablity zone
@@ -103,7 +103,7 @@ terraform {
       version = "5.19.0"
     }
   }
-  required_version = "~> 1.5.7"
+  required_version = ">= 1.5.7"
 }
 
 provider "aws" {
@@ -120,7 +120,7 @@ terraform {
       version = "5.19.0"
     }
   }
-  required_version = "~> 1.5.7"
+  required_version = ">= 1.5.7"
 }
 
 provider "aws" {
@@ -278,7 +278,7 @@ resource "aws_instance" "example" {
   user_data = file("nginxserver_amazon_deploy.sh")
 }
 ```
-# The Completed Code -- Spoiler Alert
+# Appendix A: The Completed Code -- Spoiler Alert
 
 ## ```providers.tf```
 ```
