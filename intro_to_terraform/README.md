@@ -1,7 +1,22 @@
 # Intro to Cloud Automation with Terraform
 # Instructions:  Base Configuration
 
-## Git Clone Command
+## GUI Walk-Through
+https://console.aws.amazon.com  
+EC2/Instances/Launch Instance
+
+1. Name: terraform_gui
+2. Choose Operating System: Amazon Linux
+3. Instance Type: t2.micro
+4. Create New Key Pair:  terraform
+5. Create Security Group:  terraform
+6. Allow SSH from "My IP"
+7. Configure Storage: 30gb
+8. Launch Instance
+
+
+## Terraform Walk-Through
+### Git Clone Command
 
 ```
 git clone https://github.com/towerindustries/saintcon23.git
@@ -40,9 +55,7 @@ aws_security_group.example.id
 value = aws_instance.example.public_ip
 ```
 Modify the security group with your current IP.
-```
-dig +short myip.opendns.com @resolver1.opendns.com
-```
+
 ```
   ingress {
     from_port = 22
@@ -64,7 +77,7 @@ dig +short myip.opendns.com @resolver1.opendns.com
   }
 ```
 
-# Launch Terraform
+# Terraform Commands
 ```
 terraform init
 terraform fmt

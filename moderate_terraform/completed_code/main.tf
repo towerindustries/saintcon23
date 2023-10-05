@@ -1,7 +1,6 @@
 locals {
   name              = "dev-amazon2023"
   service_name      = "example"
-  owner             = "utahsaint"
   environment       = "dev"
   terraform_code    = "advanced_terraform_v2"
 }
@@ -15,10 +14,12 @@ locals {
     Terraform   = local.terraform_code
   }
   environment_tags = merge(local.common_tags, {
-    Department = "DevSecOps"
+    department = "devsecops"
+    owner             = "dev.at.saintcon.org"
   })
-  vpc_tags = {
-    Department = "Network-Team"
+  network_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner             = "noc.at.saintcon.org"
   }
 }
 #######################
@@ -62,7 +63,7 @@ output "latest_amazon_linux_2023_ami_id" {
 ####################
 resource "aws_vpc" "example" {
   cidr_block = var.vpc_cidr_block
-  tags = local.vpc_tags
+  tags = local.network_tags
 }
 #################################
 ## Create the Internet Gateway ##
@@ -77,14 +78,14 @@ resource "aws_subnet" "example" {
   vpc_id            = aws_vpc.example.id
   cidr_block        = var.subnet_cidr_block
   availability_zone = var.availability_zone
-  tags = local.common_tags
+  tags = local.environment_tags
 }
 ############################
 ## Create the Route Table ##
 ############################
 resource "aws_route_table" "example" {
   vpc_id = aws_vpc.example.id
-  tags = local.common_tags
+  tags = local.network_tags
 }
 ##############################
 ## Create the Default Route ##

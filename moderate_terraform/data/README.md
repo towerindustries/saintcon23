@@ -1,4 +1,6 @@
 # Saintcon 23 - Cloud Automation
+## Data Overview 
+The terraform data command is used to pull external information into your code.  This is useful for finding things like the latest AMI or a VPC ID.  It is also used if you have multiple resources that need the same information, you can use the data command to pull that information into your code.  This is a key piece of keeping your code DRY (Don't Repeat Yourself).
 
 ## Data Instructions
 
@@ -32,6 +34,17 @@ data "aws_ami" "latest_amazon_linux_2023" {
     values = ["available"]
   }
 }
+
+```
+## The ```aws_instance``` AMI statement must be updated with the data command
+```
+resource "aws_instance" "example" {
+  ami           = data.aws_ami.latest_amazon_linux_2023.id 
+}
+```
+
+## Copy the output from the data command into the ```outputs.tf``` file.
+```
 output "latest_amazon_linux_2023_ami_id" {
   value = data.aws_ami.latest_amazon_linux_2023.id
 }

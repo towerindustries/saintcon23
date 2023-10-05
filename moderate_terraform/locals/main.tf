@@ -1,7 +1,6 @@
 locals {
   name              = "dev-amazon2023"
   service_name      = "example"
-  owner             = "utahsaint"
   environment       = "dev"
   terraform_code    = "advanced_terraform_v2"
 }
@@ -15,19 +14,23 @@ locals {
     Terraform   = local.terraform_code
   }
   environment_tags = merge(local.common_tags, {
-    Department = "DevSecOps"
+    department = "devsecops"
+    owner             = "dev.at.saintcon.org"
   })
-  vpc_tags = {
-    Department = "Network-Team"
+  network_tags = {
+    department = "network-team"
+    owner             = "noc.at.saintcon.org"
   }
 }
-
+#################################
+## Add to respective resources ##
+#################################
 resource "aws_vpc" "example" {
-  tags = local.vpc_tags
+  tags = local.network_tags
 }
 resource "aws_instance" "example" {
   tags = local.common_tags
 }
-resource "aws_vpc" "example" {
+resource "aws_subnet" "example" {
   tags = local.environment_tags
 }

@@ -1,17 +1,12 @@
 # Saintcon 23 - Cloud Automation
 
-## Locals Instruction
+## Locals Overview
 
 ### What is a local variable?
-A local variable is a variable that is defined in the Terraform configuration and is used to simplify the configuration.  It is not passed to the Terraform Cloud or Terraform Enterprise.
+Local variables are used to simplify the configuration.  It provides an easy way to apply the same value to multiple resources.  In our example we will repeat the same tags to multiple resources.  This will allow us to change the tags in one place and have it apply to all resources.
 
-### Why use a local variable?
-Local variables are used to simplify the configuration.  They are not passed to the Terraform Cloud or Terraform Enterprise.  They are used to simplify the configuration.
+## Locals Instruction
 
-### How do I use a local variable?
-Local variables are defined in the Terraform configuration.  They are used to simplify the configuration.  They are not passed to the Terraform Cloud or Terraform Enterprise.
-
-# Create Basic Code
 Modify ```/moderate_terraform/locals/main.tf``` with your desired tags
 
 ```
@@ -58,7 +53,7 @@ Owner	utahsaint
 
 To add tags for another use such as VPC tags you would add the following:
 ```
-  vpc_tags = {
+  network_tags = {
     Department = "Network-Team"
   }
 ```

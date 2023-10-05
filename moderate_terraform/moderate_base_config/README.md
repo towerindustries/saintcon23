@@ -1,5 +1,8 @@
-# Starting Config
-Copy the files ```main.tf``` and ```nginxserver_amazon_deploy.sh``` to your working_directory.
+# Saintcon 23 - Cloud Automation
+
+## Moderate Base Configuration Instructions
+
+Copy the files ```main.tf``` and ```nginxserver_amazon_deploy.sh``` to your "working_directory".
 
 ## User-Data
 Removed the large amount of shell script from user-data in main.tf to a shell script in the root directory.  This is a better practice.
