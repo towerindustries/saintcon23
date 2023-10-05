@@ -1,27 +1,20 @@
+# Moderate Cloud Automation with Terraform 
 
-# Providers
-### VScode
-Open side by side:  
-```/saintcon23/moderate_terraform/base_config/main.tf```
-    
-```/saintcon23/moderate_terraform/providers/main.tf```
+## Overview
 
-# Locals
-copy providers.tf file you just made to your working_directory
-```/working_directory/providers.tf```  
+## Detailed Instructions:
 
-## VScode
-Open side by side:  
+### Providers
+```/saintcon32/moderate_terraform/providers/README.md```
 
-```/saintcon23/moderate_terraform/base_config/main.tf```
- 
-```/saintcon23/moderate_terraform/data_and_locals/main.tf```
+### Data Sources
+```/saintcon32/moderate_terraform/data/README.md```
 
+### Local Values
+```/saintcon32/moderate_terraform/locals/README.md```
 
+### Variables
+```/saintcon32/moderate_terraform/variables/README.md```
 
-# Variables
-## VScode
-Open side by side:  
-
-
-
+### Code Final Results
+```/saintcon32/moderate_terraform/completed_code/README.md```
