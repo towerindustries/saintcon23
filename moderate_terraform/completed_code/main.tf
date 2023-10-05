@@ -9,7 +9,6 @@ locals {
   common_tags = {
     Name        = local.name
     Service     = local.service_name
-    Owner       = local.owner
     Environment = local.environment
     Terraform   = local.terraform_code
   }

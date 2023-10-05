@@ -49,20 +49,7 @@ locals {
     owner             = "dev.at.saintcon.org"
   })
 ```
-
-
-By adding the merge command it will now add "department = DevSecOps" to the common tags.
-The results:
-```
-Environment	dev
-Name	dev-amazon2023
-Service	example
-Department	DevSecOps
-Terraform	advanced_terraform_v2
-Owner	utahsaint
-```
-
-
+### 
 Create a second more specific ```local``` for the network tags.
 ```
   network_tags = merge(local.common_tags, {
@@ -72,7 +59,7 @@ Create a second more specific ```local``` for the network tags.
 ```
 
 
-# Complete Code
+# The Completed Code -- Spoiler Alert
 ```
 
 locals {

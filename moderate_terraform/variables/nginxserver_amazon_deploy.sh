@@ -26,10 +26,10 @@ sudo chown -R  nginx:nginx /usr/share/nginx/
 sudo cat > /usr/share/nginx/html/index.html << EOF1
 <html>
     <head>
-        <title>Welcome to Intro to Terraform on Azure!</title>
+        <title>Welcome to Intro to Terraform!</title>
     </head>
     <body><font size="20"> 
-        <p>Welcome to Intro to Terraform on Azure!</b>!</p>
+        <p>Welcome to Intro to Terraform!</b>!</p>
         </font> 
     </body>
 </html>

@@ -20,7 +20,7 @@ locals {
 ## Create the VPC ##
 ####################
 resource "aws_vpc" "example" {
-  cidr_block = var.cidr_block # This is the CIDR block of the VPC
+  cidr_block = var.vpc_cidr_block # This is the CIDR block of the VPC
   tags = {
     Name = "dev-vpc"
   }
