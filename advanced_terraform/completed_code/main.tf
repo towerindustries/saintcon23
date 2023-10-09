@@ -1,4 +1,3 @@
-# /saintcon23/advanced_terraform/intro_to_modules/main.tf
 module "security_group" {
   source = "./modules/security_groups/"
   #  version = "1.0.0"
