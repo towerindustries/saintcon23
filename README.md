@@ -9,6 +9,7 @@ This repository contains the code and instructions for the Intro to Cloud Automa
 * Terraform
 * Git
 * Text Editor
+* Putty (Windows Only)
 
 ## AWS Account
 You will need your own AWS account to complete this workshop.  If this is a major issue for you I can allow access to my personal AWS account.  
