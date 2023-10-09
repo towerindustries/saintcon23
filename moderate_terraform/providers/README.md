@@ -11,7 +11,7 @@ https://registry.terraform.io/browse/providers
 ## Provider Instructions
 
 # Appendix A: The Completed Code -- Spoiler Alert
-
+```
 terraform {
   required_providers {
     aws = {
@@ -26,3 +26,4 @@ provider "aws" {
   # Configuration options
   region = "us-east-1"
 }
+```

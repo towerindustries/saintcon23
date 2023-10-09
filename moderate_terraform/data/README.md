@@ -51,7 +51,7 @@ output "latest_amazon_linux_2023_ami_id" {
 }
 ```
 
-# Appendix a: The Completed Code -- Spoiler Alert
+# Appendix A: The Completed Code -- Spoiler Alert
 ```
 terraform {
   required_providers {
@@ -217,7 +217,7 @@ output "ec2_global_ips" {
 }
 
 ```
-# Appendix A: Terraform Filtering Options
+# Appendix B: Terraform Filtering Options
 ```
 data "aws_ami" "latest_amazon_linux_2023" {
   most_recent = true
@@ -279,7 +279,7 @@ data "aws_ami" "latest_amazon_linux_2023" {
   }
 }
 ```
-# Appendix B: How to find an AMI with the AWS CLI
+# Appendix C: How to find an AMI with the AWS CLI
 ### CLI Search for AMI
 
 Search for a specific AMI with image-ids.  
@@ -346,7 +346,7 @@ aws ec2 describe-images \
     --owners amazon \
     --owner 247102896272
 ```
-# Appendix C: Valid Image Filters
+# Appendix D: Valid Image Filters
 
 * architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac ).
 * block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.

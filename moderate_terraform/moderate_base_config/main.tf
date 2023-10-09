@@ -74,25 +74,25 @@ resource "aws_security_group" "example" {
     from_port = 22
     to_port   = 22
     protocol  = "tcp"
-    cidr_blocks = ["66.0.0.97/32"] # Change this to your home ip
+    cidr_blocks = ["66.0.0.97/32"]
   }
     ingress {
     from_port = 80
     to_port   = 80
     protocol  = "tcp"
-    cidr_blocks = ["66.0.0.97/32"] # Change this to your home ip
+    cidr_blocks = ["66.0.0.97/32"]
   }
     ingress {
     from_port = 443
     to_port   = 443
     protocol  = "tcp"
-    cidr_blocks = ["66.0.0.97/32"] # Change this to your home ip
+    cidr_blocks = ["66.0.0.97/32"]
   }
    egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"] ## Allow all outbound traffic
+    cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
     Name = "dev-security-group"
@@ -105,22 +105,22 @@ resource "aws_security_group" "example" {
 ## Create the actual Ec2 Instance ##
 ####################################
 resource "aws_instance" "example" {
-  ami           = "ami-03a6eaae9938c858c" # Feed it the AMI you found
-  instance_type = "t2.micro"                # Choose the size/type of compute you want
-  key_name      = "dev-example-key"           # Here is the public key you want for ssh.
-  subnet_id     = aws_subnet.example.id       # Put it on the Subnet you created.
+  ami           = "ami-03a6eaae9938c858c"
+  instance_type = "t2.micro"
+  key_name      = "dev-example-key"
+  subnet_id     = aws_subnet.example.id
   tags = {
     Name = "dev-amazon2023"
   }  
   
   root_block_device {
-    volume_size = 30    # If you wanted to increase the hard drive space here it is.
-    volume_type = "gp3" # The type of storage you want to use.
+    volume_size = 30
+    volume_type = "gp3"
     encrypted   = true
   }
   associate_public_ip_address = true
   vpc_security_group_ids = [
-    aws_security_group.example.id # Add the security group you created.
+    aws_security_group.example.id
   ]
   user_data = file("nginxserver_amazon_deploy.sh")
 }

@@ -26,10 +26,10 @@ sudo chown -R  nginx:nginx /usr/share/nginx/
 sudo cat > /usr/share/nginx/html/index.html << EOF1
 <html>
     <head>
-        <title>Welcome to Intro to Terraform on Azure!</title>
+        <title>Welcome to Intro to Terraform!</title>
     </head>
     <body><font size="20"> 
-        <p>Welcome to Intro to Terraform on Azure!</b>!</p>
+        <p>Welcome to Intro to Terraform!</b>!</p>
         </font> 
     </body>
 </html>
@@ -95,7 +95,7 @@ http {
    server {
        listen       443 ssl http2;
        listen       [::]:443 ssl http2;
-       server_name  terraform.energy.gov;
+       server_name  terraform.saintcon.org;
        root         /usr/share/nginx/html;
 
        ssl_certificate "/etc/pki/nginx/server.crt";
@@ -131,12 +131,12 @@ distinguished_name = dn
 
 [dn]
 C=US
-ST=Virginia
-L=Germantown
-O=doe
+ST=Utah
+L=Provo
+O=Saint
 OU=local_RootCA
-emailAddress=ikke@server.germantown
-CN = terraform.energy.gov
+emailAddress=ikke@server.provo
+CN = terraform.saintcon.org
 EOF3
 
 sudo mkdir /etc/pki/nginx/private/
