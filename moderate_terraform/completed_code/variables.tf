@@ -28,17 +28,17 @@ variable "subnet_cidr_block" {
 variable "sg_cidr_blocks_allow_ssh" {
   description = "The CIDR blocks of the security group"
   type        = list(string)
-  default     = ["161.28.24.210/32"]
+  default     = ["104.28.220.3/32"]
 }
 variable "sg_cidr_blocks_allow_http" {
   description = "The CIDR blocks of the security group"
   type        = list(string)
-  default     = ["161.28.24.210/32"]
+  default     = ["104.28.220.3/32"]
 }
 variable "sg_cidr_blocks_allow_https" {
   description = "The CIDR blocks of the security group"
   type        = list(string)
-  default     = ["161.28.24.210/32"]
+  default     = ["104.28.220.3/32"]
 }
 ##################
 ## EC2 Instance ##

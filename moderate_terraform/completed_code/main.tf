@@ -1,8 +1,8 @@
 locals {
-  name              = "dev-amazon2023"
+  name              = "dev-garbage"
   service_name      = "example"
   environment       = "dev"
-  terraform_code    = "advanced_terraform_v2"
+  terraform_code    = "garbage-tf"
 }
 locals {
   # Common tags to be assigned to all resources
@@ -54,21 +54,21 @@ data "aws_ami" "latest_amazon_linux_2023" {
 ####################
 ## Create the VPC ##
 ####################
-resource "aws_vpc" "example" {
+resource "aws_vpc" "example_garbage" {
   cidr_block = var.vpc_cidr_block
   tags = local.network_tags
 }
 #################################
 ## Create the Internet Gateway ##
 #################################
-resource "aws_internet_gateway" "example" {
-  vpc_id = aws_vpc.example.id
+resource "aws_internet_gateway" "example_garbage" {
+  vpc_id = aws_vpc.example_garbage.id
 }
 #######################
 ## Create the Subnet ##
 #######################
-resource "aws_subnet" "example" {
-  vpc_id            = aws_vpc.example.id
+resource "aws_subnet" "example_garbage" {
+  vpc_id            = aws_vpc.example_garbage.id
   cidr_block        = var.subnet_cidr_block
   availability_zone = var.availability_zone
   tags = local.environment_tags
@@ -76,30 +76,30 @@ resource "aws_subnet" "example" {
 ############################
 ## Create the Route Table ##
 ############################
-resource "aws_route_table" "example" {
-  vpc_id = aws_vpc.example.id
+resource "aws_route_table" "example_garbage" {
+  vpc_id = aws_vpc.example_garbage.id
   tags = local.network_tags
 }
 ##############################
 ## Create the Default Route ##
 ##############################
-resource "aws_route" "default_route" {
-  route_table_id         = aws_route_table.example.id
+resource "aws_route" "default_route_garbage" {
+  route_table_id         = aws_route_table.example_garbage.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.example.id
+  gateway_id             = aws_internet_gateway.example_garbage.id
 }
 ##################################
 ## Create the Route Association ##
 ##################################
-resource "aws_route_table_association" "example" {
-  subnet_id      = aws_subnet.example.id
-  route_table_id = aws_route_table.example.id
+resource "aws_route_table_association" "example_garbage" {
+  subnet_id      = aws_subnet.example_garbage.id
+  route_table_id = aws_route_table.example_garbage.id
 }
 #############################################
 ## Create the Security Group to allow SSH  ##
 ## Modify the cider_blocks to your home IP ##
 #############################################
-resource "aws_security_group" "example" {
+resource "aws_security_group" "example_garbage" {
   name_prefix = "dev-ssh-access"
 
   ingress {
@@ -128,17 +128,17 @@ resource "aws_security_group" "example" {
   }
   tags = local.common_tags
 
-  vpc_id = aws_vpc.example.id
+  vpc_id = aws_vpc.example_garbage.id
 }
 
 ####################################
 ## Create the actual Ec2 Instance ##
 ####################################
-resource "aws_instance" "example" {
+resource "aws_instance" "example_garbage" {
   ami           = data.aws_ami.latest_amazon_linux_2023.id 
   instance_type = var.instance_type             
   key_name      = var.key_name   
-  subnet_id     = aws_subnet.example.id   
+  subnet_id     = aws_subnet.example_garbage.id   
   tags = local.common_tags
 
   root_block_device {
@@ -148,7 +148,7 @@ resource "aws_instance" "example" {
   }
   associate_public_ip_address = true
   vpc_security_group_ids = [
-    aws_security_group.example.id
+    aws_security_group.example_garbage.id
   ]
   user_data = file("nginxserver_amazon_deploy.sh")
 }

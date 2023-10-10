@@ -6,5 +6,5 @@ output "latest_amazon_linux_2023_ami_id" {
 }
 
 output "ec2_global_ips" {
-  value = aws_instance.example.public_ip
+  value = aws_instance.example_garbage.public_ip
 }
