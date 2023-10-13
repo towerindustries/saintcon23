@@ -2,7 +2,7 @@
 ## David Thurm: @packetmonster
 ## Introduction
 This repository contains the code and instructions for the Intro to Cloud Automation with Terraform workshop.  This workshop will cover the basics thru moderately advanced Terraform.  We will be using AWS as our cloud provider, but the concepts can be applied to other cloud providers as well.
-
+ 
 ## Prerequisites -- To be done **BEFORE** the day of class
 * AWS Account
 * AWS CLI
