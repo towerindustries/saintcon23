@@ -23,12 +23,12 @@ In this example below we have created a locals variable group called ```common_t
 We have also set the ```Service``` tag to be populated with the ```local.service_name``` variable.  In this case it will be populated with ```example```.  We have also set the ```Environment``` tag to be populated with the ```local.environment``` variable.  In this case it will be populated with ```dev```.  We have also set the ```Terraform``` tag to be populated with the ```local.terraform_code``` variable.  In this case it will be populated with ```advanced_terraform_v2```.
 
 ```
-  common_tags = {
-    Name        = local.name
-    Service     = local.service_name
-    Environment = local.environment
-    Terraform   = local.terraform_code
-  }
+locals {
+  name           = "amazon2023"
+  service_name   = "example"
+  environment    = "dev"
+  terraform_code = "advanced_terraform_v2"
+}
 ```
 
 ```
@@ -41,32 +41,102 @@ locals {
     Terraform   = local.terraform_code
   }
 ```
-
+Create a generic ```local``` for the Network Tags.
 
 ```
-  environment_tags = merge(local.common_tags, {
+  network_tags = merge(local.common_tags, {
     department = "devsecops"
-    owner             = "dev.at.saintcon.org"
+    owner      = "dev.at.saintcon.org"
   })
 ```
 ### 
-Create a second more specific ```local``` for the network tags.
+Create a more specific ```local``` for the network tags.
 ```
-  network_tags = merge(local.common_tags, {
+  security_tags = merge(local.common_tags, {
     department = "network-team"
-    owner             = "noc.at.saintcon.org"
+    owner      = "noc.at.saintcon.org"
+    Name       = "${local.environment}-${local.name}-sg"
   })
+  vpc_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner      = "noc.at.saintcon.org"
+    Name       = "${local.environment}-${local.name}-vpc"
+  })
+  ec2_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner      = "noc.at.saintcon.org"
+    Name       = "${local.environment}-${local.name}-ec2"
+  })
+}
 ```
 
+# Next Step: Variables
+```/saintcon32/moderate_terraform/variables/README.md```
 
 # Appendix A: The Completed Code -- Spoiler Alert
+
+## Providers.tf
+```
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "5.21.0"
+    }
+  }
+  required_version = ">= 1.6.1"
+}
+
+provider "aws" {
+  # Configuration options
+  region = "us-east-1"
+}
 ```
 
+## Main.tf
+```
+##################################
+## Create the AMI Data Variable ##
+##################################
+data "aws_ami" "latest_amazon_linux_2023" {
+  most_recent = true
+  filter {
+    name = "name"
+    values = ["al2023-ami-minimal-2023*"]
+  }
+  filter {
+    name = "owner-id"
+    values = ["137112412989"]
+  }
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }  
+  filter {
+    name = "owner-alias"
+    values = ["amazon"]  
+  }
+  filter {
+    name   = "state"
+    values = ["available"]
+  }
+}
+output "latest_amazon_linux_2023_ami_id" {
+  value = data.aws_ami.latest_amazon_linux_2023.id
+}
+
+#######################
+## Create the Locals ##
+#######################
 locals {
-  name              = "dev-amazon2023"
-  service_name      = "example"
-  environment       = "dev"
-  terraform_code    = "advanced_terraform_v2"
+  name           = "amazon2023"
+  service_name   = "example"
+  environment    = "dev"
+  terraform_code = "advanced_terraform_v2"
 }
 locals {
   # Common tags to be assigned to all resources
@@ -76,13 +146,24 @@ locals {
     Environment = local.environment
     Terraform   = local.terraform_code
   }
-  environment_tags = merge(local.common_tags, {
-    department = "devsecops"
-    owner             = "dev.at.saintcon.org"
-  })
   network_tags = merge(local.common_tags, {
+    department = "devsecops"
+    owner      = "dev.at.saintcon.org"
+  })
+  security_tags = merge(local.common_tags, {
     department = "network-team"
-    owner             = "noc.at.saintcon.org"
+    owner      = "noc.at.saintcon.org"
+    Name       = "${local.environment}-${local.name}-sg"
+  })
+  vpc_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner      = "noc.at.saintcon.org"
+    Name       = "${local.environment}-${local.name}-vpc"
+  })
+  ec2_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner      = "noc.at.saintcon.org"
+    Name       = "${local.environment}-${local.name}-ec2"
   })
 }
 ####################
@@ -97,6 +178,7 @@ resource "aws_vpc" "example" {
 #################################
 resource "aws_internet_gateway" "example" {
   vpc_id = aws_vpc.example.id
+  tags = local.network_tags
 }
 #######################
 ## Create the Subnet ##
@@ -105,9 +187,7 @@ resource "aws_subnet" "example" {
   vpc_id            = aws_vpc.example.id
   cidr_block        = "10.0.1.0/24"
   availability_zone = "us-east-1a"
-  tags = {
-    Name = "dev-subnet"
-  }
+  tags = local.network_tags
 }
 ############################
 ## Create the Route Table ##
@@ -115,9 +195,7 @@ resource "aws_subnet" "example" {
 resource "aws_route_table" "example" {
   vpc_id = aws_vpc.example.id
 
-  tags = {
-    Name = "example-route-table"
-  }
+  tags = local.network_tags
 }
 ##############################
 ## Create the Default Route ##
@@ -165,9 +243,7 @@ resource "aws_security_group" "example" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"] ## Allow all outbound traffic
   }
-  tags = {
-    Name = "dev-security-group"
-  }
+  tags = local.security_tags
 
   vpc_id = aws_vpc.example.id
 }
@@ -176,11 +252,11 @@ resource "aws_security_group" "example" {
 ## Create the actual Ec2 Instance ##
 ####################################
 resource "aws_instance" "example" {
-  ami           = "ami-03a6eaae9938c858c"
+  ami           = data.aws_ami.latest_amazon_linux_2023.id 
   instance_type = "t2.micro"
   key_name      = "dev-example-key"
   subnet_id     = aws_subnet.example.id
-  tags          = local.common_tags
+  tags          = local.ec2_tags
 
   root_block_device {
     volume_size = 30
@@ -200,4 +276,3 @@ EOF
 output "ec2_global_ips" {
   value = aws_instance.example.public_ip
 }
-```

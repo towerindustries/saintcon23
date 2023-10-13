@@ -10,6 +10,9 @@ https://registry.terraform.io/browse/providers
 
 ## Provider Instructions
 
+### Next Step: Data Sources
+```/saintcon32/moderate_terraform/data/README.md```
+
 # Appendix A: The Completed Code -- Spoiler Alert
 ```
 terraform {

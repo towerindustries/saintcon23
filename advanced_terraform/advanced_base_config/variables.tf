@@ -1,16 +1,15 @@
 ######################
 ## Provider Details ##
 ######################
-variable "region" {
-  description = "AWS Region"
-  type = string
-  default = "us-east-1"
-}
-
 variable "availability_zone" {
-  description = "The availablity zone"
+  description = "The availability zone"
   type        = string
-  default     = "us-east-1a"
+  default     = ""
+}
+variable "region" {
+  description = "The region"
+  type        = string
+  default     = ""  
 }
 ################
 ## Networking ##
@@ -18,27 +17,31 @@ variable "availability_zone" {
 variable "vpc_cidr_block" {
   description = "The CIDR block of the VPC"
   type        = string
-  default     = "10.0.0.0/16"
+  default     = ""
 }
 variable "subnet_cidr_block" {
   description = "The CIDR block of the subnet"
   type        = string
-  default     = "10.0.1.0/24"
+  default     = ""
 }
+#####################
+## Security Groups ##
+#####################
 variable "sg_cidr_blocks_allow_ssh" {
   description = "The CIDR blocks of the security group"
   type        = list(string)
-  default     = ["161.28.24.210/32"]
+  default     = [""]
 }
 variable "sg_cidr_blocks_allow_http" {
   description = "The CIDR blocks of the security group"
   type        = list(string)
-  default     = ["161.28.24.210/32"]
+  default     = [""]
 }
+
 variable "sg_cidr_blocks_allow_https" {
   description = "The CIDR blocks of the security group"
   type        = list(string)
-  default     = ["161.28.24.210/32"]
+  default     = [""]
 }
 ##################
 ## EC2 Instance ##
@@ -46,19 +49,19 @@ variable "sg_cidr_blocks_allow_https" {
 variable "instance_type" {
   description = "The instance type"
   type        = string
-  default     = "t2.micro"
+  default     = ""
 }
 variable "key_name" {
   description = "The key name"
   type        = string
-  default     = "dev-example-key"
+  default     = ""
 }
 variable "volume_size" {
   description = "The volume size"
   type        = string
-  default     = "30"
+  default     = ""
 }
 variable "volume_type" {
   description = "The volume type"
-  default     = "gp3"
+  default     = ""
 }

@@ -93,7 +93,6 @@ resource "aws_security_group" "example" {
     from_port = 443
     to_port   = 443
     protocol  = "tcp"
-    # cidr_blocks = ["66.0.0.97/32"]
     cidr_blocks = var.sg_cidr_blocks_allow_https
   }
   egress {

@@ -36,12 +36,7 @@ data "aws_ami" "latest_amazon_linux_2023" {
 }
 
 ```
-## The ```aws_instance``` AMI statement must be updated with the data command
-```
-resource "aws_instance" "example" {
-  ami           = data.aws_ami.latest_amazon_linux_2023.id 
-}
-```
+
 
 ## Add the output command into ```main.tf```.
 We will move the output command to an ```outputs.tf``` file later on.
@@ -50,6 +45,16 @@ output "latest_amazon_linux_2023_ami_id" {
   value = data.aws_ami.latest_amazon_linux_2023.id
 }
 ```
+## Change the ```aws_instance``` AMI statement with the new data command
+```
+resource "aws_instance" "example" {
+  ami           = data.aws_ami.latest_amazon_linux_2023.id 
+}
+```
+
+
+# Next Steps:  Locals
+```/saintcon32/moderate_terraform/locals/README.md```
 
 # Appendix A: The Completed Code -- Spoiler Alert
 ```

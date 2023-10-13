@@ -1,26 +1,3 @@
-locals {
-  name              = "dev-amazon2023"
-  service_name      = "example"
-  environment       = "dev"
-  terraform_code    = "advanced_terraform_v2"
-}
-locals {
-  # Common tags to be assigned to all resources
-  common_tags = {
-    Name        = local.name
-    Service     = local.service_name
-    Environment = local.environment
-    Terraform   = local.terraform_code
-  }
-  environment_tags = merge(local.common_tags, {
-    department = "devsecops"
-    owner             = "dev.at.saintcon.org"
-  })
-  network_tags = merge(local.common_tags, {
-    department = "network-team"
-    owner             = "noc.at.saintcon.org"
-  })
-}
 #######################
 ## Search for an AMI ##
 #######################
@@ -51,18 +28,61 @@ data "aws_ami" "latest_amazon_linux_2023" {
     values = ["available"]
   }
 }
+output "latest_amazon_linux_2023_ami_id" {
+  value = data.aws_ami.latest_amazon_linux_2023.id
+}
+#######################
+## Create the Locals ##
+#######################
+locals {
+  name           = "amazon2023"
+  service_name   = "example"
+  environment    = "dev"
+  terraform_code = "advanced_terraform_v2"
+}
+locals {
+  # Common tags to be assigned to all resources
+  common_tags = {
+    Name        = local.name
+    Service     = local.service_name
+    Environment = local.environment
+    Terraform   = local.terraform_code
+  }
+  network_tags = merge(local.common_tags, {
+    department = "devsecops"
+    owner      = "dev.at.saintcon.org"
+  })
+  security_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner      = "noc.at.saintcon.org"
+    Name       = "${local.environment}-${local.name}-sg"
+  })
+  vpc_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner      = "noc.at.saintcon.org"
+    Name       = "${local.environment}-${local.name}-vpc"
+  })
+  ec2_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner      = "noc.at.saintcon.org"
+    Name       = "${local.environment}-${local.name}-ec2"
+  })
+}
+
+
 ####################
 ## Create the VPC ##
 ####################
 resource "aws_vpc" "example" {
   cidr_block = var.vpc_cidr_block
-  tags = local.network_tags
+  tags       = local.vpc_tags
 }
 #################################
 ## Create the Internet Gateway ##
 #################################
 resource "aws_internet_gateway" "example" {
   vpc_id = aws_vpc.example.id
+  tags = local.network_tags
 }
 #######################
 ## Create the Subnet ##
@@ -71,14 +91,14 @@ resource "aws_subnet" "example" {
   vpc_id            = aws_vpc.example.id
   cidr_block        = var.subnet_cidr_block
   availability_zone = var.availability_zone
-  tags = local.environment_tags
+  tags              = local.network_tags
 }
 ############################
 ## Create the Route Table ##
 ############################
 resource "aws_route_table" "example" {
   vpc_id = aws_vpc.example.id
-  tags = local.network_tags
+  tags   = local.network_tags
 }
 ##############################
 ## Create the Default Route ##
@@ -126,20 +146,19 @@ resource "aws_security_group" "example" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = local.common_tags
+  tags = local.security_tags
 
   vpc_id = aws_vpc.example.id
 }
-
 ####################################
 ## Create the actual Ec2 Instance ##
 ####################################
 resource "aws_instance" "example" {
-  ami           = data.aws_ami.latest_amazon_linux_2023.id 
-  instance_type = var.instance_type             
-  key_name      = var.key_name   
-  subnet_id     = aws_subnet.example.id   
-  tags = local.common_tags
+  ami           = data.aws_ami.latest_amazon_linux_2023.id
+  instance_type = var.instance_type
+  key_name      = var.key_name
+  subnet_id     = aws_subnet.example.id
+  tags          = local.ec2_tags
 
   root_block_device {
     volume_size = var.volume_size

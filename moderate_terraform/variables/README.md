@@ -14,7 +14,7 @@ Variables are used to simplify the configuration.  They are passed to the Terraf
 ### How do I use a variable?
 Variables are defined in the Terraform configuration.  They are passed to the Terraform Cloud or Terraform Enterprise.
 
-# Create ```variables.tf```
+# Variables.tf
 Create ```/moderate_terraform/variables/variables.tf```.  
 This is where you will define your variables.
 
@@ -28,7 +28,7 @@ variable "region" {
   default = "us-east-1"
 }
 variable "availability_zone" {
-  description = "The availablity zone
+  description = "The availablity zone"
   default     = "us-east-1a"
 }
 ```
@@ -93,14 +93,14 @@ variable "volume_type" {
   default = "gp3"
 }
 ```
-# Modify ```provider.tf```
+# Modify ```providers.tf```
 
 ```
 terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      version = "5.19.0"
+      version = "5.21.0"
     }
   }
   required_version = ">= 1.5.7"
@@ -136,7 +136,7 @@ provider "aws" {
 ```
 resource "aws_vpc" "example" {
   cidr_block = "10.0.0.0/16"
-  tags = locals.vpc_tags
+  tags = local.vpc_tags
 }
 ```
 ### VPC with Variables
@@ -144,7 +144,7 @@ resource "aws_vpc" "example" {
 ```
 resource "aws_vpc" "example" {
   cidr_block = var.vpc_cidr_block
-  tags = locals.vpc_tags
+  tags = local.vpc_tags
 }
 ```
 ## Subnet
@@ -153,7 +153,7 @@ resource "aws_subnet" "example" {
   vpc_id     = aws_vpc.example.id
   cidr_block = "10.0.1.0/24"
   availability_zone = "us-east-1a"
-  tags = local.common_tags
+  tags = local.network_tags
 }
 ```
 ### Subnet with Variables
@@ -194,9 +194,7 @@ resource "aws_security_group" "example" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"] ## Allow all outbound traffic
   }
-  tags = {
-    Name = "dev-security-group"
-  }
+  tags = local.security_tags
   
   vpc_id = aws_vpc.example.id
 }
@@ -230,7 +228,7 @@ resource "aws_security_group" "example" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"] ## Allow all outbound traffic
   }
-  tags = local.common_tags
+  tags = local.security_tags
   
   vpc_id = aws_vpc.example.id
 }
@@ -243,7 +241,7 @@ resource "aws_instance" "example" {
   instance_type = "t2.micro"
   key_name      = "dev-example-key"
   subnet_id     = aws_subnet.example.id
-  tags          = local.environment_tags
+  tags          = local.ec2_tags
   
   root_block_device {
     volume_size = 30
@@ -264,7 +262,7 @@ resource "aws_instance" "example" {
   instance_type = var.instance_type
   key_name      = var.key_name
   subnet_id     = aws_subnet.example.id  
-  tags          = local.environment_tags
+  tags          = local.ec2_tags
   
   root_block_device {
     volume_size = var.volume_size
@@ -278,6 +276,10 @@ resource "aws_instance" "example" {
   user_data = file("nginxserver_amazon_deploy.sh")
 }
 ```
+# Next Step: Terraform.tfvars
+```/moderate_terraform/terraform.tfvars/README.md```
+
+
 # Appendix A: The Completed Code -- Spoiler Alert
 
 ## ```providers.tf```
@@ -362,29 +364,6 @@ variable "volume_type" {
 
 # ```main.tf```
 ```
-locals {
-  name           = "dev-amazon2023"
-  service_name   = "example"
-  environment    = "dev"
-  terraform_code = "advanced_terraform_v2"
-}
-locals {
-  # Common tags to be assigned to all resources
-  common_tags = {
-    Name        = local.name
-    Service     = local.service_name
-    Environment = local.environment
-    Terraform   = local.terraform_code
-  }
-  environment_tags = merge(local.common_tags, {
-    department = "devsecops"
-    owner      = "dev.at.saintcon.org"
-  })
-  network_tags = merge(local.common_tags, {
-    department = "network-team"
-    owner      = "noc.at.saintcon.org"
-  })
-}
 #######################
 ## Search for an AMI ##
 #######################
@@ -415,18 +394,60 @@ data "aws_ami" "latest_amazon_linux_2023" {
     values = ["available"]
   }
 }
+output "latest_amazon_linux_2023_ami_id" {
+  value = data.aws_ami.latest_amazon_linux_2023.id
+}
+#######################
+## Create the Locals ##
+#######################
+locals {
+  name           = "amazon2023"
+  service_name   = "example"
+  environment    = "dev"
+  terraform_code = "advanced_terraform_v2"
+}
+locals {
+  # Common tags to be assigned to all resources
+  common_tags = {
+    Name        = local.name
+    Service     = local.service_name
+    Environment = local.environment
+    Terraform   = local.terraform_code
+  }
+  network_tags = merge(local.common_tags, {
+    department = "devsecops"
+    owner      = "dev.at.saintcon.org"
+  })
+  security_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner      = "noc.at.saintcon.org"
+    Name       = "${local.environment}-${local.name}-sg"
+  })
+  vpc_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner      = "noc.at.saintcon.org"
+    Name       = "${local.environment}-${local.name}-vpc"
+  })
+  ec2_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner      = "noc.at.saintcon.org"
+    Name       = "${local.environment}-${local.name}-ec2"
+  })
+}
+
 ####################
 ## Create the VPC ##
 ####################
 resource "aws_vpc" "example" {
   cidr_block = var.vpc_cidr_block
-  tags       = local.network_tags
+  tags       = local.vpc_tags
 }
 #################################
 ## Create the Internet Gateway ##
 #################################
 resource "aws_internet_gateway" "example" {
   vpc_id = aws_vpc.example.id
+  tags = local.network_tags
 }
 #######################
 ## Create the Subnet ##
@@ -435,7 +456,7 @@ resource "aws_subnet" "example" {
   vpc_id            = aws_vpc.example.id
   cidr_block        = var.subnet_cidr_block
   availability_zone = var.availability_zone
-  tags              = local.environment_tags
+  tags              = local.network_tags
 }
 ############################
 ## Create the Route Table ##
@@ -490,7 +511,7 @@ resource "aws_security_group" "example" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = local.common_tags
+  tags = local.security_tags
 
   vpc_id = aws_vpc.example.id
 }
@@ -503,7 +524,7 @@ resource "aws_instance" "example" {
   instance_type = var.instance_type
   key_name      = var.key_name
   subnet_id     = aws_subnet.example.id
-  tags          = local.common_tags
+  tags          = local.ec2_tags
 
   root_block_device {
     volume_size = var.volume_size
