@@ -8,3 +8,6 @@ Order of Operations:
 2. Terraform.tfvars
 3. Advanced_Data
 4. Intro_to_Modules
+
+# Terraform Architecture
+Large Workload Deployment

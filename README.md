@@ -8,7 +8,7 @@ This repository contains the code and instructions for the Intro to Cloud Automa
 * AWS CLI
 * Terraform
 * Git
-* Text Editor
+* Text Editor (VSCode)
 * Putty (Windows Only)
 
 ## AWS Account
@@ -54,7 +54,7 @@ Test the CLI
 ```
 aws sts get-caller-identity
 ```
-## Terraform Intall
+## Terraform Install
 Terraform is an open source tool that allows you to automate the creation of cloud resources.  You can download Terraform [here](https://www.terraform.io/downloads.html).  Once you have Terraform installed, you will need to add it to your PATH.  You can find instructions on how to do that [here](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix).
 
 ## Text Editor Install
