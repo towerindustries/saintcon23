@@ -9,8 +9,41 @@ https://registry.terraform.io/browse/providers
 ```
 
 ## Provider Instructions
+Create ```providers.tf``` in your ```working_directory```.
 
-### Next Step: Data Sources
+Copy the following code into providers.tf
+
+```
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "5.19.0"
+    }
+  }
+  required_version = ">= 1.5.7"
+}
+
+provider "aws" {
+  # Configuration options
+  region = "us-east-1"
+}
+```
+Modify AWS version to 5.21.0 and optinally upgrade the terraform version to 1.6.1. This is dependent on the version you have installed.
+```
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "5.21.0"
+    }
+  }
+  required_version = ">= 1.6.1"
+}
+```
+## Delete the Provider Section
+```/main.tf```
+# Next Step: Data Sources
 ```/saintcon32/moderate_terraform/data/README.md```
 
 # Appendix A: The Completed Code -- Spoiler Alert

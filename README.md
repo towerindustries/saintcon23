@@ -8,7 +8,7 @@ This repository contains the code and instructions for the Intro to Cloud Automa
 * AWS CLI
 * Terraform
 * Git
-* Text Editor
+* Text Editor (VSCode)
 * Putty (Windows Only)
 
 ## AWS Account

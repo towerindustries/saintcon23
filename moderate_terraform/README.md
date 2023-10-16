@@ -37,3 +37,6 @@ The following is the order in which we will be building upon the ```/moderate_te
 ## Final Code Build to Validate Your Code
 
 ```/saintcon32/moderate_terraform/completed_code/README.md```
+
+# Next Step:  Providers
+```/saintcon32/moderate_terraform/providers/README.md```
