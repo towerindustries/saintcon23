@@ -15,7 +15,7 @@ Variables are used to simplify the configuration.  They are passed to the Terraf
 Variables are defined in the Terraform configuration.  They are passed to the Terraform Cloud or Terraform Enterprise.
 
 # Variables.tf
-Create ```/moderate_terraform/variables/variables.tf```.  
+Create ```/working_directory/variables.tf```.  
 This is where you will define your variables.
 
 ```

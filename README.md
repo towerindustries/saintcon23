@@ -2,7 +2,7 @@
 ## David Thurm: @packetmonster
 ## Introduction
 This repository contains the code and instructions for the Intro to Cloud Automation with Terraform workshop.  This workshop will cover the basics thru moderately advanced Terraform.  We will be using AWS as our cloud provider, but the concepts can be applied to other cloud providers as well.
-
+ 
 ## Prerequisites -- To be done **BEFORE** the day of class
 * AWS Account
 * AWS CLI
@@ -54,7 +54,7 @@ Test the CLI
 ```
 aws sts get-caller-identity
 ```
-## Terraform Intall
+## Terraform Install
 Terraform is an open source tool that allows you to automate the creation of cloud resources.  You can download Terraform [here](https://www.terraform.io/downloads.html).  Once you have Terraform installed, you will need to add it to your PATH.  You can find instructions on how to do that [here](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix).
 
 ## Text Editor Install
