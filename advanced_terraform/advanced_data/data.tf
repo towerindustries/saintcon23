@@ -27,14 +27,15 @@ data "aws_ami" "latest_amazon_linux_2023" {
   }
 }
 
-variable "vpc_id" {}
+
 
 data "aws_vpc" "selected" {
   id = var.vpc_id
 }
 
-resource "aws_subnet" "example" {
-  vpc_id            = data.aws_vpc.selected.id
-  availability_zone = var.availability_zone
-  cidr_block        = cidrsubnet(data.aws_vpc.selected.cidr_block, 4, 1)
+data "aws_vpc" "current_vpc" {
+  tags = {
+    Name = "dev-terraform"
+  }
 }
+

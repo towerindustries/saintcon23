@@ -77,7 +77,6 @@ resource "aws_instance" "example" {
   vpc_security_group_ids = var.security_group_id
   user_data = file("nginxserver_amazon_deploy.sh")
 }
-
 ```
 ### EC2 Module -- variables.tf
 ```/working_directory/modules/ec2/variables.tf```

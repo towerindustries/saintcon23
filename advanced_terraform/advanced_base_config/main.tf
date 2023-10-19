@@ -38,7 +38,7 @@ locals {
   name           = "amazon2023"
   service_name   = "example"
   environment    = "dev"
-  terraform_code = "advanced_terraform_v2"
+  terraform_code = "advanced_base_config"
 }
 locals {
   # Common tags to be assigned to all resources
@@ -67,9 +67,12 @@ locals {
     owner      = "noc.at.saintcon.org"
     Name       = "${local.environment}-${local.name}-ec2"
   })
+  subnet_tags = merge(local.common_tags, {
+    department = "network-team"
+    owner      = "noc.at.saintcon.org"
+    Name       = "${local.environment}-${local.name}-subnet"
+  })
 }
-
-
 ####################
 ## Create the VPC ##
 ####################
@@ -91,7 +94,7 @@ resource "aws_subnet" "example" {
   vpc_id            = aws_vpc.example.id
   cidr_block        = var.subnet_cidr_block
   availability_zone = var.availability_zone
-  tags              = local.network_tags
+  tags              = local.subnet_tags
 }
 ############################
 ## Create the Route Table ##
