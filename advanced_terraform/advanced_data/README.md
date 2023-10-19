@@ -24,11 +24,12 @@ This will deploy the following:
 4: Create a new file named ```variables.tf``` in your ```working_directory```  
 5: Create a new file named ```terraform.tfvars``` in your ```working_directory```  
 6: Create a new file named ```outputs.tf``` in your ```working_directory```
+7: Create a new file named ```data.tf``` in your ```working_directory```
 
 
-## Create a new ```main.tf``` file in your ```working_directory```
 
-We will reuse the AMI filter from the previous section.  Copy the following code into your ```main.tf``` file.
+
+We will reuse the AMI filter from the previous section.  Copy the following code into your empty ```data.tf``` file.
 ```
 data "aws_ami" "latest_amazon_linux_2023" {
   most_recent = true
@@ -68,7 +69,7 @@ output "ec2_global_ips" {
   value = aws_instance.example.public_ip
 }
 ```
-Copy the following code into your ```main.tf``` file.  
+Copy the following code into your ```data.tf``` file.  
 * Notice we added a ```second_server``` tag to our previous locals block.
 * Add any tags you would like.
 

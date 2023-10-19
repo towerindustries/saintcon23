@@ -3,7 +3,6 @@
 ######################
 ## Provider Details ##
 ######################
-
 variable "region" {
   description = "aws region"
   type = string

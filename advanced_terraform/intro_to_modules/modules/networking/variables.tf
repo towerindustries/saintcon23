@@ -3,12 +3,6 @@
 ## Networking ##
 ################
 
-variable "vpc_id" {
-  description = "VPC-ID"
-  type = string
-  default = ""
-}
-
 variable "vpc_cidr_block" {
   description = "The CIDR block of the VPC"
   type        = string
