@@ -17,18 +17,22 @@ This will deploy the following:
 
 # Advanced Data Configuration
 
+## CREATE A NEW WORKING DIRECTORY SEPERATE FROM THE BASE CONFIG !!!
+```/working_directory/``` 
+
 ## New File Creation and Replication of Existing Files
 1: Create a new directory called ```working_directory```  
-2: Copy ```providers.tf``` from ```/advanced_terraform/base_config/``` to your ```working_directory```  
+2: Copy ```providers.tf``` from ```/advanced_terraform/advanced_base_config/``` to your ```working_directory```  
 3: Create a new file named ```main.tf``` in your ```working_directory```  
 4: Create a new file named ```variables.tf``` in your ```working_directory```  
 5: Create a new file named ```terraform.tfvars``` in your ```working_directory```  
-6: Create a new file named ```outputs.tf``` in your ```working_directory```
+6: Create a new file named ```outputs.tf``` in your ```working_directory```  
+7: Create a new file named ```data.tf``` in your ```working_directory```
 
 
-## Create a new ```main.tf``` file in your ```working_directory```
+## Root Directory -- /data.tf
 
-We will reuse the AMI filter from the previous section.  Copy the following code into your ```main.tf``` file.
+We will reuse the AMI filter from the previous section.  Copy the following code into your empty ```data.tf``` file.
 ```
 data "aws_ami" "latest_amazon_linux_2023" {
   most_recent = true
@@ -58,17 +62,15 @@ data "aws_ami" "latest_amazon_linux_2023" {
   }
 }
 ```
-### Copy the Data Output for AMI lookup and the Public IP into ```outputs.tf``` file.
+## Root Directory -- /outputs.tf
+### Copy the Data Output for AMI lookup into ```outputs.tf``` file.
 ```
 output "latest_amazon_linux_2023_ami_id" {
   value = data.aws_ami.latest_amazon_linux_2023.id
 }
-
-output "ec2_global_ips" {
-  value = aws_instance.example.public_ip
-}
 ```
-Copy the following code into your ```main.tf``` file.  
+## Root Directory -- /data.tf
+Copy the following code into your ```data.tf``` file.  
 * Notice we added a ```second_server``` tag to our previous locals block.
 * Add any tags you would like.
 
@@ -77,7 +79,7 @@ locals {
   name           = "dev-amazon2023"
   service_name   = "example"
   environment    = "dev"
-  terraform_code = "advanced_terraform"
+  terraform_code = "advanced_data"
 }
 locals {
   # Common tags to be assigned to all resources
@@ -103,18 +105,26 @@ locals {
 }
 ```
 # Pull Existing Configuration from AWS
-
+## Prerequisites
+* Deployed ```/advanced_terraform/advanced_base_config``` Terraform 
+  
 ## Getting the VPC
 We will need the vpc information to deploy our servers into an already existing one.
 * This looks for a VPC with the tag ```Name = dev-terraform```
 * Outputs the info to ```data.aws_vpc.current_vpc```
+
+## Root Directory -- /data.tf
 ```
+#########################
+## Existing VPC Lookup ##
+#########################
 data "aws_vpc" "current_vpc" {
   tags = {
-    Name = "dev-terraform"
+    Name = "dev-amazon2023-vpc"
   }
 }
 ```
+## Root Directory -- /outputs.tf
 Copy the following code into your ```outputs.tf``` file.  
 
 ```
@@ -126,8 +136,13 @@ output "current_vpc_id" {
 ## Getting the Subnet
 We will need the subnet information to deploy our servers into an already existing one.
 * We need to know the VPC ID to get the subnet information.  We got this above.
-* This looks for a Subnet with the tag ```Name = dev-terraform```
+* This looks for a Subnet with the tag ```Name = dev-amazon2023-subnet```
+
+## Root Directory -- /data.tf
 ```
+############################
+## Existing Subnet Lookup ##
+############################
 data "aws_subnets" "example" {
   filter {
     name   = "vpc-id"
@@ -135,17 +150,18 @@ data "aws_subnets" "example" {
   }
   filter {
     name   = "tag:Name"
-    values = ["dev-terraform"]
+    values = ["dev-amazon2023-subnet"]
   }
 }
-
 data "aws_subnet" "example" {
   for_each = toset(data.aws_subnets.example.ids)
 
   id = each.value
 }
 ```
-Copy the following code into your ```outputs.tf``` file.  
+## Root Directory -- /outputs.tf
+Copy the following code into your ```outputs.tf``` file.
+
 ```
 output "subnet_ids" {
   value = data.aws_subnets.example.ids
@@ -157,7 +173,11 @@ output "subnet_cidr_blocks" {
 ```
 ## Security Group
 We are adding the VPC-ID from above and searching for a security group with the tag ```Name = dev-terraform```
+## Root Directory -- /data.tf
 ```
+###########################
+## Security Group Lookup ##
+###########################
 data "aws_security_group" "example" {
   filter {
     name   = "vpc-id"
@@ -165,16 +185,16 @@ data "aws_security_group" "example" {
   }
   filter {
     name   = "tag:Name"
-    values = ["dev-terraform"]
+    values = ["dev-amazon2023-sg"]
   }
 }
 ```
+## Root Directory -- /outputs.tf
 Copy the following code into your ```outputs.tf``` file.  
 ```
 output "security_group_id" {
   value = data.aws_security_group.example.id
 }
-
 output "security_group_name" {
   value = data.aws_security_group.example.name
 }
@@ -182,11 +202,15 @@ output "security_group_name" {
 
 ## EC2 Instance
 We combine all the outputs for the subnet, VPC, and security group to deploy our EC2 instance.  
-* The element function will retrieve the first element of a list of AWS subnet IDs returned by the ```data.aws_subnets.example.ids``` data source. The retrieved subnet ID is then assigned to the subnet_id variable.
+* The element function will retrieve the first element of a list of AWS subnet IDs returned by the ```data.aws_subnets.example.ids``` data source. 
+* The retrieved subnet ID is then assigned to the subnet_id variable.
 * The ```data.aws_security_group.example.id``` did not return more than one result so it did not need any additional functions.
   
-
+## Root Directory -- /main.tf
 ```
+#########################
+## Second EC2 Instance ##
+#########################
 resource "aws_instance" "example_2" {
   ami           = data.aws_ami.latest_amazon_linux_2023.id
   instance_type = var.instance_type
@@ -205,7 +229,42 @@ resource "aws_instance" "example_2" {
   user_data = file("nginxserver_amazon_deploy.sh")
 }
 ```
-# Combine code together
+## Root Directory -- /variables.tf
+```
+######################
+## Provider Details ##
+######################
+variable "availability_zone" {
+  description = "The availability zone"
+  type        = string
+  default     = ""
+}
+variable "region" {
+  description = "The region"
+  type        = string
+  default     = ""  
+}
+
+```
+
+## Root Directory -- /terraform.fvars
+```
+######################
+## Provider Details ##
+######################
+region = "us-east-1"
+availability_zone = "us-east-1a"
+
+##################
+## EC2 Instance ##
+##################
+instance_type = "t2.micro"
+key_name      = "dev-example-key"
+volume_size   = "30"
+volume_type   = "gp3"
+```
+# Appendix A: The Completed Code -- Spoiler Alert
+
 ```~/working_directory/main.tf```
 
 ```
