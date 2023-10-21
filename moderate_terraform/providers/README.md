@@ -29,7 +29,7 @@ provider "aws" {
   region = "us-east-1"
 }
 ```
-Modify AWS version to 5.21.0 and optinally upgrade the terraform version to 1.6.1. This is dependent on the version you have installed.
+Modify AWS version to 5.21.0 and optionally upgrade the terraform version to 1.6.1. This is dependent on the version you have installed.
 ```
 terraform {
   required_providers {
