@@ -7,27 +7,17 @@ Local variables are used to simplify the configuration.  It provides an easy way
 
 ## Locals Instructions
 
-Modify ```/moderate_terraform/locals/main.tf``` to include the following code.  
-Below we define what the generic most common tags will be.
-
-```
-locals {
-  name              = "dev-amazon2023"
-  service_name      = "example"
-  environment       = "dev"
-  terraform_code    = "advanced_terraform_v2"
-}
-```
 In this example below we have created a locals variable group called ```common_tags```.  Here we have set the ```Name``` tag to be populated with the local.name variable that we set above.  In this case it will be populated with dev-amazon2023.  
 
-We have also set the ```Service``` tag to be populated with the ```local.service_name``` variable.  In this case it will be populated with ```example```.  We have also set the ```Environment``` tag to be populated with the ```local.environment``` variable.  In this case it will be populated with ```dev```.  We have also set the ```Terraform``` tag to be populated with the ```local.terraform_code``` variable.  In this case it will be populated with ```advanced_terraform_v2```.
+We have also set the ```Service``` tag to be populated with the ```local.service_name``` variable.  In this case it will be populated with ```example```.  We have also set the ```Environment``` tag to be populated with the ```local.environment``` variable.  In this case it will be populated with ```dev```.  We have also set the ```Terraform``` tag to be populated with the ```local.terraform_code``` variable.  In this case it will be populated with ```moderate_data```.
 
+Modify ```/moderate_terraform/locals/main.tf``` to include the following code.  
 ```
 locals {
   name           = "amazon2023"
   service_name   = "example"
   environment    = "dev"
-  terraform_code = "advanced_terraform_v2"
+  terraform_code = "moderate_data"
 }
 ```
 
