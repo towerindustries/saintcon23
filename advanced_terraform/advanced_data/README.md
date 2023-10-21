@@ -26,9 +26,9 @@ This will deploy the following:
 6: Create a new file named ```outputs.tf``` in your ```working_directory```
 
 
-## Create a new ```main.tf``` file in your ```working_directory```
+## Create a new ```data.tf``` file in your ```working_directory```
 
-We will reuse the AMI filter from the previous section.  Copy the following code into your ```main.tf``` file.
+We will reuse the AMI filter from the previous section.  Copy the following code into your ```data.tf``` file.
 ```
 data "aws_ami" "latest_amazon_linux_2023" {
   most_recent = true
