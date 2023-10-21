@@ -4,13 +4,14 @@
 ####################
 resource "aws_vpc" "example" {
   cidr_block = var.vpc_cidr_block
-  tags = local.network_tags
+  tags       = var.vpc_tags
 }
 #################################
 ## Create the Internet Gateway ##
 #################################
 resource "aws_internet_gateway" "example" {
   vpc_id = aws_vpc.example.id
+  tags = var.network_tags
 }
 #######################
 ## Create the Subnet ##
@@ -19,14 +20,14 @@ resource "aws_subnet" "example" {
   vpc_id            = aws_vpc.example.id
   cidr_block        = var.subnet_cidr_block
   availability_zone = var.availability_zone
-  tags = local.environment_tags
+  tags              = var.network_tags
 }
 ############################
 ## Create the Route Table ##
 ############################
 resource "aws_route_table" "example" {
   vpc_id = aws_vpc.example.id
-  tags = local.network_tags
+  tags   = var.network_tags
 }
 ##############################
 ## Create the Default Route ##

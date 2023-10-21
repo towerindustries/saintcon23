@@ -16,7 +16,7 @@ variable "region" {
   default = "us-east-1"
 }
 variable "availability_zone" {
-  description = "The availablity zone"
+  description = "The availability zone"
   default     = "us-east-1a"
 }
 ```
@@ -105,7 +105,7 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      version = "5.19.0"
+      version = "5.21.0"
     }
   }
   required_version = ">= 1.5.7"
@@ -276,7 +276,7 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      version = "5.19.0"
+      version = "5.21.0"
     }
   }
   required_version = "~> 1.5.7"

@@ -1,23 +1,43 @@
 # saintcon23/advanced_terraform/intro_to_modules/modules/ec2/variables.tf
-##################
-## EC2 Instance ##
-##################
+###################
+## EC2 Variables ##
+###################
+variable "ami" {
+  description = "AMI ID"
+  type        = string
+  default     = ""
+}
 variable "instance_type" {
   description = "The instance type"
   type        = string
-  default     = "t2.micro"
+  default     = ""
 }
 variable "key_name" {
   description = "The key name"
   type        = string
-  default     = "dev-example-key"
+  default     = ""
 }
 variable "volume_size" {
   description = "The volume size"
   type        = string
-  default     = "30"
+  default     = ""
 }
 variable "volume_type" {
   description = "The volume type"
-  default     = "gp3"
+  default     = ""
+}
+variable "security_group_id" {
+  description = "security group id"
+  type        = list(string)
+  default     = [""]
+}
+variable "ec2_tags" {
+  description = "The tags on the ec2 instance"
+  type        = map(string)
+  default     = {}
+}
+variable "subnet_id" {
+  description = "The subnet id"
+  type        = string
+  default     = ""
 }
