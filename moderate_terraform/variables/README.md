@@ -2,18 +2,6 @@
 
 ## Variables Instructions
 
-### Caution
-You must disable terraform.tfvars or modify variables.tf for this code to work.  
-
-### What is a variable?
-A variable is a value that is defined in the Terraform configuration and is passed to the Terraform Cloud or Terraform Enterprise.
-
-### Why use a variable?
-Variables are used to simplify the configuration.  They are passed to the Terraform Cloud or Terraform Enterprise.  They are used to simplify the configuration.
-
-### How do I use a variable?
-Variables are defined in the Terraform configuration.  They are passed to the Terraform Cloud or Terraform Enterprise.
-
 # Variables.tf
 Create ```/working_directory/variables.tf```.  
 This is where you will define your variables.
