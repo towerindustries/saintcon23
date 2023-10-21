@@ -30,9 +30,10 @@ This will deploy the following:
 7: Create a new file named ```data.tf``` in your ```working_directory```
 
 
-## Root Directory -- /data.tf
+## Create a new ```data.tf``` file in your ```working_directory```
 
-We will reuse the AMI filter from the previous section.  Copy the following code into your empty ```data.tf``` file.
+We will reuse the AMI filter from the previous section.  Copy the following code into your ```data.tf``` file.
+
 ```
 data "aws_ami" "latest_amazon_linux_2023" {
   most_recent = true

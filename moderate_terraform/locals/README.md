@@ -59,7 +59,10 @@ Create a more specific ```local``` for the network tags.
   })
 }
 ```
+## Add locals to AWS resources
+```
 
+```
 # Next Step: Variables
 ```/saintcon32/moderate_terraform/variables/README.md```
 
@@ -82,43 +85,8 @@ provider "aws" {
   region = "us-east-1"
 }
 ```
-
-## Main.tf
+## Locals.tf
 ```
-##################################
-## Create the AMI Data Variable ##
-##################################
-data "aws_ami" "latest_amazon_linux_2023" {
-  most_recent = true
-  filter {
-    name = "name"
-    values = ["al2023-ami-minimal-2023*"]
-  }
-  filter {
-    name = "owner-id"
-    values = ["137112412989"]
-  }
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }  
-  filter {
-    name = "owner-alias"
-    values = ["amazon"]  
-  }
-  filter {
-    name   = "state"
-    values = ["available"]
-  }
-}
-output "latest_amazon_linux_2023_ami_id" {
-  value = data.aws_ami.latest_amazon_linux_2023.id
-}
-
 #######################
 ## Create the Locals ##
 #######################
@@ -156,6 +124,45 @@ locals {
     Name       = "${local.environment}-${local.name}-ec2"
   })
 }
+```
+## Data.tf
+```
+##################################
+## Create the AMI Data Variable ##
+##################################
+data "aws_ami" "latest_amazon_linux_2023" {
+  most_recent = true
+  filter {
+    name = "name"
+    values = ["al2023-ami-minimal-2023*"]
+  }
+  filter {
+    name = "owner-id"
+    values = ["137112412989"]
+  }
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }  
+  filter {
+    name = "owner-alias"
+    values = ["amazon"]  
+  }
+  filter {
+    name   = "state"
+    values = ["available"]
+  }
+}
+output "latest_amazon_linux_2023_ami_id" {
+  value = data.aws_ami.latest_amazon_linux_2023.id
+}
+```
+## Main.tf
+```
 ####################
 ## Create the VPC ##
 ####################
@@ -266,3 +273,4 @@ EOF
 output "ec2_global_ips" {
   value = aws_instance.example.public_ip
 }
+```
