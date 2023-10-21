@@ -2,7 +2,7 @@ locals {
   name           = "amazon2023"
   service_name   = "example"
   environment    = "dev"
-  terraform_code = "advanced_terraform_v2"
+  terraform_code = "intro_to_modules"
 }
 locals {
   # Common tags to be assigned to all resources

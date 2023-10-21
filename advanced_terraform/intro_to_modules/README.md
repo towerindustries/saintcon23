@@ -387,8 +387,8 @@ variable "availability_zone" {
 NOTHING HERE YET
 ```
 
-### Root Directory -- data.tf
-```/working_directory/data.tf```  
+### Root Directory -- locals.tf
+```/working_directory/locals.tf```  
 Add in the lookup for the AMI and the Locals configuration.
 
 ```
