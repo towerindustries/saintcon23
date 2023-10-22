@@ -4,12 +4,12 @@
 variable "availability_zone" {
   description = "The availability zone"
   type        = string
-  default     = ""
+  default     = "us-east-1b"
 }
 variable "region" {
   description = "The region"
   type        = string
-  default     = ""  
+  default     = "us-east-1"  
 }
 ################
 ## Networking ##
